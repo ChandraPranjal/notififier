@@ -1,15 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-function App() {
-  useEffect(() => {
-    const socket = io("http://localhost:3001");
-   
-    socket.on("myEvent", (data)=>{
-      console.log(data);
-    })
 
+const socket = io("http://localhost:3002");
+function App() {
+
+  const [inputValue, setInputValue] = useState("");
+  console.log("Page refreshed");
+  useEffect(() => {
+    // Initialize the socket connection
+
+    // Clean up the socket connection on component unmount
+    return () => {
+      socket.disconnect();
+    };
   }, []);
-  return <div>Ok</div>;
+
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    // Emit a message to the server
+    socket.emit("message", inputValue);
+
+    // Clear the input field after sending the message
+    setInputValue("");
+  };
+
+  return (
+    <div>
+      <input
+        id="my"
+        value={inputValue}
+        onChange={(e) => {
+          e.preventDefault();
+          setInputValue(e.target.value);
+        }}
+      />
+      <button type="submit" onClick={handleClick}>
+        Click Me
+      </button>
+    </div>
+  );
 }
 
 export default App;

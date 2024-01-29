@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 
 const secretKeyJWT = "asdasdsadasdasdasdsa";
-const port = 3001;
+const port = 3002;
 
 const app = express();
 const server = createServer(app);
@@ -74,7 +74,10 @@ io.on("connection",(socket)=>{
   console.log("User Connected");
   console.log("Id", socket.id);
 
-  socket.emit("myEvent" , `Hey ${socket.id}`)
+  socket.broadcast.emit("myEvent" , `Hey ${socket.id}`)
+  socket.on("message",(data)=>{
+    console.log("data received is ", data);
+  })
 })
 
 server.listen(port, () => {
