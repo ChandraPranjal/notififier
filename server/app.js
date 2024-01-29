@@ -74,6 +74,7 @@ io.on("connection",(socket)=>{
   console.log("User Connected");
   console.log("Id", socket.id);
 
+  socket.emit("myEvent" , `Hey ${socket.id}`)
 })
 
 server.listen(port, () => {

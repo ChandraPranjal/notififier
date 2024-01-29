@@ -3,10 +3,11 @@ import { io } from "socket.io-client";
 function App() {
   useEffect(() => {
     const socket = io("http://localhost:3001");
-    socket.on("Hello", (arg) => {
-      console.log(arg);
-    });
-    socket.emit();
+   
+    socket.on("myEvent", (data)=>{
+      console.log(data);
+    })
+
   }, []);
   return <div>Ok</div>;
 }
